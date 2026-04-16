@@ -3,6 +3,8 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from src.auth.router import router as auth_router
+from src.movies.router import router as movies_router
+from src.movies import models as movies_models  # noqa
 from src.core.database import engine, Base, AsyncSessionLocal
 from src.core.seed import seed_user_groups
 
@@ -12,7 +14,7 @@ async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
     async with AsyncSessionLocal() as db:
-        await seed_user_groups(db)    
+        await seed_user_groups(db)
     yield
 
 
@@ -24,6 +26,7 @@ app = FastAPI(
 )
 
 app.include_router(auth_router)
+app.include_router(movies_router)
 
 
 @app.get("/", tags=["Health"])

@@ -4,7 +4,8 @@ from httpx import AsyncClient, ASGITransport
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
 from sqlalchemy.orm import sessionmaker
 
-from src.main import app
+from main import app
+from src.movies import models as movies_models  # noqa
 from src.core.database import Base, get_db
 from src.core.seed import seed_user_groups
 
