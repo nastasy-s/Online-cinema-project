@@ -2,6 +2,7 @@ import re
 from datetime import datetime
 
 from pydantic import BaseModel, EmailStr, field_validator
+from typing import Any
 
 from src.auth.models import GenderEnum, UserGroupEnum
 
@@ -93,6 +94,13 @@ class UserResponseSchema(BaseModel):
     profile: UserProfileSchema | None = None
 
     model_config = {"from_attributes": True}
+
+    @field_validator("group", mode="before")
+    @classmethod
+    def get_group_name(cls, v: Any) -> Any:
+        if v is not None and not isinstance(v, UserGroupEnum):
+            return getattr(v, "name", v)
+        return v
 
 
 class ChangeUserGroupSchema(BaseModel):

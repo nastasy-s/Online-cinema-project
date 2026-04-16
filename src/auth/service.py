@@ -33,19 +33,19 @@ class AuthService:
     async def register(
         self, db: AsyncSession, data: UserRegisterSchema
     ) -> User:
-        # Check email uniqueness
+        # 1. Перевірка унікальності email
         result = await db.execute(select(User).where(User.email == data.email))
         existing_user = result.scalar_one_or_none()
         if existing_user:
             raise ValueError("User with this email already exists")
 
-        # Get default user group
+        # 2. Отримання групи за замовчуванням
         result = await db.execute(
             select(UserGroup).where(UserGroup.name == UserGroupEnum.USER)
         )
         user_group = result.scalar_one_or_none()
 
-        # Create user
+        # 3. Створення об'єкта користувача
         user = User(
             email=data.email,
             hashed_password=hash_password(data.password),
@@ -55,11 +55,9 @@ class AuthService:
         db.add(user)
         await db.flush()
 
-        # Create profile
         profile = UserProfile(user_id=user.id)
         db.add(profile)
 
-        # Create activation token
         token = secrets.token_urlsafe(32)
         expires_at = datetime.now(timezone.utc) + timedelta(hours=24)
         activation_token = ActivationToken(
@@ -68,8 +66,18 @@ class AuthService:
             expires_at=expires_at,
         )
         db.add(activation_token)
+        
         await db.commit()
-        await db.refresh(user)
+
+        result = await db.execute(
+            select(User)
+            .where(User.id == user.id)
+            .options(
+                selectinload(User.group),
+                selectinload(User.profile)
+            )
+        )
+        user = result.scalar_one()
 
         return user
 

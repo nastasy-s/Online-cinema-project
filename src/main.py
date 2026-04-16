@@ -3,13 +3,16 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from src.auth.router import router as auth_router
-from src.core.database import engine, Base
+from src.core.database import engine, Base, AsyncSessionLocal
+from src.core.seed import seed_user_groups
 
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.create_all)
+    async with AsyncSessionLocal() as db:
+        await seed_user_groups(db)    
     yield
 
 
