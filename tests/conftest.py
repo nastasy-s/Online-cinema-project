@@ -11,6 +11,7 @@ from src.core.seed import seed_user_groups
 from src.reactions import models as reactions_models  # noqa
 from src.favorites import models as favorites_models  # noqa
 from src.cart import models as cart_models  # noqa
+from src.orders import models as orders_models  # noqa
 
 TEST_DATABASE_URL = "sqlite+aiosqlite:///./test.db"
 
