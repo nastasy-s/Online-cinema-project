@@ -61,33 +61,57 @@ Branches used in this project:
 
 Each feature branch was developed independently, covered with tests, and merged into `develop` via a Pull Request before being released to `main`.
 
+### Installation and Running
 
-## Environment Variables
+**Step 1. Clone the repository**
 
-Copy `.env.example` to `.env` and configure the following variables:
-
-```env
-# Database
-DATABASE_URL=postgresql+asyncpg://user:password@db:5432/cinema_db
-
-# Security
-SECRET_KEY=your-secret-key-min-32-chars
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-REFRESH_TOKEN_EXPIRE_DAYS=7
-
-# Email (for account activation and password reset)
-SMTP_HOST=smtp.gmail.com
-SMTP_PORT=587
-SMTP_USER=your@gmail.com
-SMTP_PASSWORD=your-gmail-app-password
-
-# Application
-APP_HOST=http://localhost:8000
+```bash
+git clone https://github.com/nastasy-s/Online-cinema-project.git
+cd Online-cinema-project
 ```
 
-**Note:** For Gmail, you need to create an [App Password](https://myaccount.google.com/apppasswords) instead of using your regular password.
+**Step 2. Create environment file**
 
+```bash
+cp .env.example .env
+```
+
+Open `.env` and fill in your values
+
+**Step 3. Start Docker Desktop**
+
+Make sure Docker Desktop is running before proceeding.
+
+**Step 4. Build and start all services**
+
+```bash
+docker-compose up --build
+```
+
+This command will start three services:
+- `db` — PostgreSQL database on port 5432
+- `redis` — Redis on port 6379
+- `app` — FastAPI application on port 8080
+
+The database tables and initial data (user groups) are created automatically on first startup.
+
+**Step 5. Verify the application is running**
+
+Open your browser and navigate to:
+- API health check: `http://localhost:8080/`
+- Swagger UI documentation: `http://localhost:8080/docs`
+
+**Stopping the application**
+
+```bash
+docker-compose down
+```
+
+To stop and remove all data volumes:
+
+```bash
+docker-compose down -v
+```
 
 ## API Reference
 
