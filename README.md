@@ -48,6 +48,25 @@ Online-cinema-project/
 └── .env.example           # Environment variables template
 
 
+## Git Flow
+
+This project follows a feature-branch workflow:
+
+- `main` — production-ready code
+- `develop` — integration branch for completed features
+- `feature/*` — individual feature branches, merged into develop via Pull Requests
+
+Branches used in this project:
+- `feature/auth` — user authentication and JWT tokens
+- `feature/movies-catalog` — movies catalog with filters and search
+- `feature/reactions` — likes, comments and ratings
+- `feature/favorites` — user favorites list
+- `feature/cart` — shopping cart
+- `feature/orders` — order management
+
+Each feature branch was developed independently, covered with tests, and merged into `develop` via a Pull Request before being released to `main`.
+
+
 ## Environment Variables
 
 Copy `.env.example` to `.env` and configure the following variables:
