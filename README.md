@@ -19,33 +19,28 @@ Online Cinema API allows users to browse and purchase movies, leave reviews, man
 
 
 ## Project Structure
-Online-cinema-project/
-├── src/
-│   ├── auth/              # Authentication, users, JWT tokens
-│   │   ├── models.py      # User, UserGroup, Token models
-│   │   ├── schemas.py     # Pydantic validation schemas
-│   │   ├── service.py     # Business logic
-│   │   └── router.py      # API endpoints
-│   ├── movies/            # Movies catalog
-│   ├── reactions/         # Likes, comments, ratings
-│   ├── favorites/         # User favorites list
-│   ├── cart/              # Shopping cart
-│   ├── orders/            # Order management
-│   └── core/              # Shared utilities
-│       ├── config.py      # App configuration
-│       ├── database.py    # Database connection
-│       ├── security.py    # Password hashing, JWT
-│       ├── dependencies.py # FastAPI dependencies
-│       └── seed.py        # Initial data seeding
-├── tests/
-│   ├── unit/              # Unit tests (security, utils)
-│   └── integration/       # Integration tests (endpoints)
-├── main.py                # Application entry point
-├── docker-compose.yml     # Docker services configuration
-├── Dockerfile             # Application container
-├── pyproject.toml         # Dependencies (Poetry)
-├── pytest.ini             # Test configuration
-└── .env.example           # Environment variables template
+
+The project follows a modular architecture where each feature is a self-contained module with its own models, schemas, service layer and router.
+
+**Source code** is organized under `src/` with the following modules:
+
+`auth` handles user registration, login, JWT token management and password operations.
+
+`movies` contains the movies catalog with full CRUD operations for moderators and read access for all users.
+
+`reactions` manages user interactions with movies — likes, dislikes, comments with nested replies, and 10-point ratings.
+
+`favorites` allows users to save movies to a personal list with the same filtering options as the main catalog.
+
+`cart` provides shopping cart functionality — adding, removing and clearing items before checkout.
+
+`orders` handles order creation from cart contents, order history and cancellation.
+
+`core` contains shared infrastructure — database connection, configuration, JWT security utilities, FastAPI dependencies and initial data seeding.
+
+**Tests** are split into `unit` (security functions, utilities) and `integration` (full endpoint testing with a real SQLite database).
+
+**Root files:** `main.py` is the application entry point, `docker-compose.yml` defines all services, `Dockerfile` builds the application container, `pyproject.toml` manages dependencies via Poetry.
 
 
 ## Git Flow
