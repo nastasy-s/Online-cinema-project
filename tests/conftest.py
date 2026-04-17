@@ -9,6 +9,7 @@ from src.movies import models as movies_models  # noqa
 from src.core.database import Base, get_db
 from src.core.seed import seed_user_groups
 from src.reactions import models as reactions_models  # noqa
+from src.favorites import models as favorites_models  # noqa
 
 TEST_DATABASE_URL = "sqlite+aiosqlite:///./test.db"
 
